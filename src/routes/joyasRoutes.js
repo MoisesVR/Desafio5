@@ -1,5 +1,6 @@
 const express = require ('express')
 const router = express.Router()
+const { reportRequest } =require('../middlewares/logger')
 
 const { getAllJoyas, getAllJoyasFilter } = require('../controllers/joyasController')
 
