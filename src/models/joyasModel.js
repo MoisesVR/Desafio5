@@ -24,4 +24,18 @@ const getJoyas = async (limit, page, order_by) => {
     }
 }
 
-module.exports = { getJoyas }
+const getJoyasFilter = async ({ precio_min, precio_max, categoria, metal }) => {
+    try {
+        SQLquery = {
+            text: "SELECT * FROM inventario WHERE precio >= $1 AND precio <= $2 AND categoria= $3 AND metal= $4",
+            values: [precio_min, precio_max, categoria, metal]
+        };
+        const res = await pool.query(SQLquery);
+        return res.rows;
+    } catch (e) {
+        console.log(e)
+    }
+
+}
+
+module.exports = { getJoyas, getJoyasFilter }

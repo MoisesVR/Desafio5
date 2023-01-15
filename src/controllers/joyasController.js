@@ -1,4 +1,4 @@
-const { getJoyas } = require("../models/joyasModel");
+const { getJoyas, getJoyasFilter } = require("../models/joyasModel");
 
 const getAllJoyas = async (req, res) => {
     try {
@@ -16,6 +16,26 @@ const getAllJoyas = async (req, res) => {
         console.log(e)
     }
 };
+
+const getAllJoyasFilter = async (req, res) => {
+    try {
+        const query = req.query;
+        const lengthQuery = Object.values(query).length;
+        if (lengthQuery < 4) {
+            res.json({ "Message": "Faltan filtros de busqueda en la consulta" });
+        }
+        else {
+            const joyas = await getJoyasFilter(query);
+            if (joyas.length === 0) {
+                res.json({ "Message": "No se encontraron registros acordes a los filtros" });
+            } else {
+                res.json(joyas);
+            }
+        }
+    } catch (e) {
+        console.log(e);
+    }
+}
 
 const prepararHATEOAS = (joyas) => {
     try {
@@ -43,4 +63,4 @@ const prepararHATEOAS = (joyas) => {
     }
 }
 
-module.exports = { getAllJoyas }
+module.exports = { getAllJoyas, getAllJoyasFilter }
